@@ -83,8 +83,8 @@ template <class T>
 class dslist {
   private:
     // private helper functions
-    void copy_list (const dslist<T>& old);
-    void destory_list ();
+    /*TODO*/ void copy_list (const dslist<T>& old);
+    /*TODO*/ void destory_list ();
 
     // REPRESENTATION
     Node<T>* head_;
@@ -96,15 +96,34 @@ class dslist {
     // & deconstructor
     dslist () : head_(0), tail_(0), size_(0) {} // 0 for NULL
     dslist (const dslist<T>& old) : { this->copy_list(old); }
-    dslist<T>& operator= (const dslist<T>& old);
+    /*TODO*/ dslist<T>& operator= (const dslist<T>& old);
     ~dslist () { this->destory_list(); }
 
-    // ACCESSORS
+    // SIMPLE ACCESSORS
     unsigned int size () const { return size_; }
     bool empty () const { return head_==0; }
 
-    // MODIFIERS
+    // SIMPLE MODIFIERS
     void clear () { this->destory_list(); }
+
+    // read / write access to contents
+    const T& front () const { return head_->value_; }
+    T& front () { return head_->value_; }
+    const T& back () const { return tail_->value_; }
+    T& back () { return tail_->value; }
+
+    // modify linked list structure
+    /*TODO*/ void push_front (const T& v);
+    /*TODO*/ void pop_front ();
+    /*TODO*/ void push_back (const T& v);
+    /*TODO*/ void pop_back ();
+
+    // iterator modifier functions
+    typedef list_iterator<T> iterator;
+    /*TODO*/ iterator erase (iterator itr);
+    /*TODO*/ iterator insert (iterator itr, cosnt T& v);
+    iterator begin () { return iterator(head_); }
+    iterator end () { return iterator(0); }
 };
 
 
