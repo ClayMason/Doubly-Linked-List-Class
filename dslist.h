@@ -127,4 +127,17 @@ class dslist {
 };
 
 
+// IMPLEMENTATIONS !!!
+template <class T>
+dslist<T>& dslist<T>::operator= (const dslist<T>& old) {
+  // check for self assignment
+  if ( &old != this ) {
+    this->destory_list();
+    this->copy_list(old);
+  }
+
+  return *this;
+}
+
+
 #endif
