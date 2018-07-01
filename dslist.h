@@ -174,5 +174,17 @@ void pop_front () {
   --size;
 }
 
+template <class T>
+void push_back (const T& v) {
+  // add v to the end of the list
+  Node<T>* to_add;
+  to_add->value_ = v; // set the node value to v (object to add to list)
+  to_add->prev_ = tail_; // make the end of the list point forward (next_) to v
+  tail_->next_ = to_add; // make v point back to end of list (prev_)
+
+  tail_ = to_add; // now, make to_add the new end of list by assigning it to tail_
+
+  ++size_; // inc size
+}
 
 #endif
