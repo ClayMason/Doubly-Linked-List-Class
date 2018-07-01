@@ -116,7 +116,7 @@ class dslist {
     // modify linked list structure
     /*TODO -- DONE*/ void push_front (const T& v);
     /*TODO -- DONE*/ void pop_front ();
-    /*TODO*/ void push_back (const T& v);
+    /*TODO -- DONE*/ void push_back (const T& v);
     /*TODO*/ void pop_back ();
 
     // iterator modifier functions
@@ -171,13 +171,14 @@ void pop_front () {
   to_remove->next_ = 0;
   head_->prev_ = 0;
 
+  delete to_remove;
   --size;
 }
 
 template <class T>
 void push_back (const T& v) {
   // add v to the end of the list
-  Node<T>* to_add;
+  Node<T>* to_add = new Node<T>;
   to_add->value_ = v; // set the node value to v (object to add to list)
   to_add->prev_ = tail_; // make the end of the list point forward (next_) to v
   tail_->next_ = to_add; // make v point back to end of list (prev_)
@@ -185,6 +186,18 @@ void push_back (const T& v) {
   tail_ = to_add; // now, make to_add the new end of list by assigning it to tail_
 
   ++size_; // inc size
+}
+
+template <class T>
+void pop_back () {
+  // remove the item at the end of the list
+  Node<T>* to_remove = tail_;
+  tail_ = tail_->prev_;
+  tail_->next_ = 0;
+  to_remove->prev_ = 0;
+
+  delete to_remove;
+  --size_;
 }
 
 #endif
