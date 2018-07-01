@@ -12,6 +12,7 @@ class Node {
     Node () : next_(NULL), prev_(NULL) {}
 
     //  member variables
+    T value;
     Node<T>* prev_;
     Node<T>* next_;
 };
@@ -96,7 +97,7 @@ class dslist {
     // & deconstructor
     dslist () : head_(0), tail_(0), size_(0) {} // 0 for NULL
     dslist (const dslist<T>& old) : { this->copy_list(old); }
-    /*TODO*/ dslist<T>& operator= (const dslist<T>& old);
+    /*TODO -- DONE*/ dslist<T>& operator= (const dslist<T>& old);
     ~dslist () { this->destory_list(); }
 
     // SIMPLE ACCESSORS
@@ -137,6 +138,26 @@ dslist<T>& dslist<T>::operator= (const dslist<T>& old) {
   }
 
   return *this;
+}
+
+template <class T>
+void push_front (const T& v) {
+  // add v to the front -- relinking
+  list_iterator<T> next_itr = begin ();
+  list_iterator<T> first_itr = next_itr++; // itr's old statr is returned and next_itr increments
+
+  // make a new node for v
+  Node<T>* v_node;
+  v_node = new Node<T>;
+  v_node->value = T;
+
+  // make first_itr's ptr_->next_ point to v -- and vice versa
+  first_itr.ptr_->next_ = v_node;
+  v_node->prev_ = first_itr.ptr_;
+
+  // make next_itr's ptr_->prev_ point to v -- and vice versa
+  next_itr.ptr->prev_ = v_node;
+  v_node->next_ = next_itr.ptr_;
 }
 
 
