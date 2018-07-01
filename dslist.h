@@ -114,8 +114,8 @@ class dslist {
     T& back () { return tail_->value; }
 
     // modify linked list structure
-    /*TODO*/ void push_front (const T& v);
-    /*TODO*/ void pop_front ();
+    /*TODO -- DONE*/ void push_front (const T& v);
+    /*TODO -- DONE*/ void pop_front ();
     /*TODO*/ void push_back (const T& v);
     /*TODO*/ void pop_back ();
 
@@ -158,6 +158,20 @@ void push_front (const T& v) {
   // make next_itr's ptr_->prev_ point to v -- and vice versa
   next_itr.ptr->prev_ = v_node;
   v_node->next_ = next_itr.ptr_;
+
+  ++size_;
+}
+
+template <class T>
+void pop_front () {
+  // remove the item in the front
+  Node<T>* to_remove = this->head_;
+  this->head_ = ++ (this->begin());
+
+  to_remove->next_ = 0;
+  head_->prev_ = 0;
+
+  --size;
 }
 
 
