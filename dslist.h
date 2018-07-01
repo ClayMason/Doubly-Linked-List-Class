@@ -9,7 +9,8 @@
 template <class T>
 class Node {
   public:
-    Node () : next_(NULL), prev_(NULL) {}
+    Node () : next_(0), prev_(0) {}
+    Node (T& new_val) : value(new_val), next_(0), prev_(0) {}
 
     //  member variables
     T value;
@@ -122,7 +123,7 @@ class dslist {
     // iterator modifier functions
     typedef list_iterator<T> iterator;
     /*TODO -- DONE*/ iterator erase (iterator itr);
-    /*TODO*/ iterator insert (iterator itr, cosnt T& v);
+    /*TODO -- DONE*/ iterator insert (iterator itr, cosnt T& v);
     iterator begin () { return iterator(head_); }
     iterator end () { return iterator(0); }
 };
@@ -214,7 +215,7 @@ iterator dslist<T>::erase (iterator itr) {
   // make sure the Node pointers are not null before accessing properties of it1
   if (to_left != 0) to_left->next_ = to_right;
   if (to_right != 0) to_right->prev_ = to_left;
-
+  --this->size_;
   return iterator(to_right);
 }
 
@@ -235,14 +236,38 @@ iterator dslist<T>::insert (iterator itr, const T& v) {
     to_right = itr.ptr_->next_;
     to_left = itr.ptr_;
 
-    if (to_right != 0) to_right->prev_ = to_add; // want to make sure to_right is not null 
+    if (to_right != 0) to_right->prev_ = to_add; // want to make sure to_right is not null
     to_left->next_ = to_add; // to_left cannot be null b/c we already cheked in 1st if -- so no need to double check
 
     to_add->next_ = to_right;
     to_add->prev_ = to_left;
+    ++this->size_;
   }
 
   to_return iterator(to_add);
 }
 
+template <class T>
+void copy_list (const dslist<T>& old) {
+  // copy the contents of old dslist into this dslist
+
+  // start with the head
+  this->head_ = new Node<T>(old.head_->value_);
+  Node<T>* this_prev = head_;
+
+  for (iterator itr = ++old.begin(); itr != old.end(); ++itr) {
+    Node<T>* to_add;
+    to_add = new Node<T>(itr.ptr_->value_);
+    to_add->prev_ = this_prev;
+    this_prev->next_ =  to_add;
+
+    if ( itr.ptr_ == old.tail_ ) { // if this is the tail,
+      this->tail_ = to_add;
+    }
+
+    this_prev = to_add;
+  }
+  this->size_ = old.size_;
+
+}
 #endif
