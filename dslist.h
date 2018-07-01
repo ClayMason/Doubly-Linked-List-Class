@@ -121,7 +121,7 @@ class dslist {
 
     // iterator modifier functions
     typedef list_iterator<T> iterator;
-    /*TODO*/ iterator erase (iterator itr);
+    /*TODO -- DONE*/ iterator erase (iterator itr);
     /*TODO*/ iterator insert (iterator itr, cosnt T& v);
     iterator begin () { return iterator(head_); }
     iterator end () { return iterator(0); }
@@ -211,11 +211,38 @@ iterator dslist<T>::erase (iterator itr) {
 
   // do not need to delete itr b/c not dynamically allocated
 
-  // make sure the Node pointers are not null before accessing properties of it
+  // make sure the Node pointers are not null before accessing properties of it1
   if (to_left != 0) to_left->next_ = to_right;
   if (to_right != 0) to_right->prev_ = to_left;
 
   return iterator(to_right);
+}
+
+template <class T>
+iterator dslist<T>::insert (iterator itr, const T& v) {
+  // insert v after the Node that itr's ptr_ points to
+  Node<T>* to_add;
+  *to_add = new Node<T>;
+  to_add->value_ = v;
+
+  if ( itr.ptr_ == 0 ) // if the iterator is null ... insert to end ? b/c end () also returns null iteratror
+  {
+    tail_->next_ = to_add;
+    to_add->prev_ = tail_;
+    tail_ = to_add;
+  } else {
+    // otherwise, the itr should be pointing at a node within the list
+    to_right = itr.ptr_->next_;
+    to_left = itr.ptr_;
+
+    if (to_right != 0) to_right->prev_ = to_add; // want to make sure to_right is not null 
+    to_left->next_ = to_add; // to_left cannot be null b/c we already cheked in 1st if -- so no need to double check
+
+    to_add->next_ = to_right;
+    to_add->prev_ = to_left;
+  }
+
+  to_return iterator(to_add);
 }
 
 #endif
