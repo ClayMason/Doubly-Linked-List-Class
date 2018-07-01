@@ -56,7 +56,7 @@ class list_iterator {
       pre_ = pre_->prev_;
       return *this;
     }
-    list_iterator<T>& operator-- (int) {
+    list_iterator<T>& operator-- (int) { // iter--
       // return current iterator state, then decrement it
       list_iterator<T>& temp(*this);
       ptr_ = ptr_->prev_;
@@ -117,7 +117,7 @@ class dslist {
     /*TODO -- DONE*/ void push_front (const T& v);
     /*TODO -- DONE*/ void pop_front ();
     /*TODO -- DONE*/ void push_back (const T& v);
-    /*TODO*/ void pop_back ();
+    /*TODO -- DONE*/ void pop_back ();
 
     // iterator modifier functions
     typedef list_iterator<T> iterator;
@@ -141,7 +141,7 @@ dslist<T>& dslist<T>::operator= (const dslist<T>& old) {
 }
 
 template <class T>
-void push_front (const T& v) {
+void dslist<T>::push_front (const T& v) {
   // add v to the front -- relinking
   list_iterator<T> next_itr = begin ();
   list_iterator<T> first_itr = next_itr++; // itr's old statr is returned and next_itr increments
@@ -163,7 +163,7 @@ void push_front (const T& v) {
 }
 
 template <class T>
-void pop_front () {
+void dslist<T>::pop_front () {
   // remove the item in the front
   Node<T>* to_remove = this->head_;
   this->head_ = ++ (this->begin());
@@ -176,7 +176,7 @@ void pop_front () {
 }
 
 template <class T>
-void push_back (const T& v) {
+void dslist<T>::push_back (const T& v) {
   // add v to the end of the list
   Node<T>* to_add = new Node<T>;
   to_add->value_ = v; // set the node value to v (object to add to list)
@@ -189,7 +189,7 @@ void push_back (const T& v) {
 }
 
 template <class T>
-void pop_back () {
+void dslist<T>::pop_back () {
   // remove the item at the end of the list
   Node<T>* to_remove = tail_;
   tail_ = tail_->prev_;
@@ -198,6 +198,24 @@ void pop_back () {
 
   delete to_remove;
   --size_;
+}
+
+template <class T>
+iterator dslist<T>::erase (iterator itr) {
+  // remove the object that the iterator is pointing at in this list.
+  Node<T>* to_left = itr.ptr_->prev_;
+  Node<T>* to_right = itr.ptr_->next_;
+
+  itr.ptr_->next_ = 0;
+  itr.ptr_->prev_ = 0;
+
+  // do not need to delete itr b/c not dynamically allocated
+
+  // make sure the Node pointers are not null before accessing properties of it
+  if (to_left != 0) to_left->next_ = to_right;
+  if (to_right != 0) to_right->prev_ = to_left;
+
+  return iterator(to_right);
 }
 
 #endif
