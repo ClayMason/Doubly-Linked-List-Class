@@ -62,7 +62,23 @@ class list_iterator {
       return temp;
     }
 
+    // dslist class needs to access list_iterator's ptr_ private variable
+    // so, we make it friends with list_iterator<T> class
+    friend class dslist<T>;
+
+    // COMPARISON OPERATOR
+    bool operator== (const list_iterator<T>& r) const {
+      return this->ptr_ == r.ptr_;
+    }
+    bool operator!= (const list_iterator<T>& r) const {
+      return this->ptr_ != r.ptr_;
+    }
+
 };
+
+
+// --------------------------------------------------------
+// DS LIST CLASS IMPLEMENTATION
 
 
 #endif
