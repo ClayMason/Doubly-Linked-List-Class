@@ -79,6 +79,33 @@ class list_iterator {
 
 // --------------------------------------------------------
 // DS LIST CLASS IMPLEMENTATION
+template <class T>
+class dslist {
+  private:
+    // private helper functions
+    void copy_list (const dslist<T>& old);
+    void destory_list ();
+
+    // REPRESENTATION
+    Node<T>* head_;
+    Node<T>* tail_;
+    unsigned int size_;
+
+  public:
+    // default constructor, assignment constructor, copy constructor,
+    // & deconstructor
+    dslist () : head_(0), tail_(0), size_(0) {} // 0 for NULL
+    dslist (const dslist<T>& old) : { this->copy_list(old); }
+    dslist<T>& operator= (const dslist<T>& old);
+    ~dslist () { this->destory_list(); }
+
+    // ACCESSORS
+    unsigned int size () const { return size_; }
+    bool empty () const { return head_==0; }
+
+    // MODIFIERS
+    void clear () { this->destory_list(); }
+};
 
 
 #endif
