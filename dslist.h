@@ -2,6 +2,7 @@
 #define dslist_h_
 
 #include <cassert>
+#include <iostream>
 
 // --------------------------------------------------------
 // NODE CLASS
@@ -48,6 +49,7 @@ class list_iterator {
     }
     list_iterator<T>& operator++ (int) { // iter++
       // return current state of iterator, then increment it
+      std::cout << "op++: " << ptr_->next_ << std::endl;
       list_iterator<T>& temp(*this);
       ptr_ = ptr_->next_;
       return temp;
@@ -144,21 +146,29 @@ dslist<T>& dslist<T>::operator= (const dslist<T>& old) {
 template <class T>
 void dslist<T>::push_front (const T& v) {
   // add v to the front -- relinking
-  list_iterator<T> next_itr = begin ();
-  list_iterator<T> first_itr = next_itr++; // itr's old statr is returned and next_itr increments
 
-  // make a new node for v
-  Node<T>* v_node;
-  v_node = new Node<T>;
-  v_node->value = v;
+  if ( this->size_ == 0 ) {
+    head_ = new Node<T>;
+    head_->value = v;
+    tail_ = head_;
+  }
+  else {
+    list_iterator<T> next_itr = begin ();
+    list_iterator<T> first_itr = next_itr++; // itr's old statr is returned and next_itr increments
 
-  // make first_itr's ptr_->next_ point to v -- and vice versa
-  first_itr.ptr_->next_ = v_node;
-  v_node->prev_ = first_itr.ptr_;
+    // make a new node for v
+    Node<T>* v_node;
+    v_node = new Node<T>;
+    v_node->value = v;
 
-  // make next_itr's ptr_->prev_ point to v -- and vice versa
-  next_itr.ptr_->prev_ = v_node;
-  v_node->next_ = next_itr.ptr_;
+    // make first_itr's ptr_->next_ point to v -- and vice versa
+    first_itr.ptr_->next_ = v_node;
+    v_node->prev_ = first_itr.ptr_;
+
+    // make next_itr's ptr_->prev_ point to v -- and vice versa
+    next_itr.ptr_->prev_ = v_node;
+    v_node->next_ = next_itr.ptr_;
+  }
 
   ++size_;
 }
@@ -173,18 +183,25 @@ void dslist<T>::pop_front () {
   head_->prev_ = 0;
 
   delete to_remove;
-  --size;
+  -- size_;
 }
 
 template <class T>
 void dslist<T>::push_back (const T& v) {
   // add v to the end of the list
-  Node<T>* to_add = new Node<T>;
-  to_add->value = v; // set the node value to v (object to add to list)
-  to_add->prev_ = tail_; // make the end of the list point forward (next_) to v
-  tail_->next_ = to_add; // make v point back to end of list (prev_)
+  if (this->size_ == 0) {
+    head_ = new Node<T>;
+    head_->value = v;
+    tail_ = head_;
+  }
+  else {
+    Node<T>* to_add = new Node<T>;
+    to_add->value = v; // set the node value to v (object to add to list)
+    to_add->prev_ = tail_; // make the end of the list point forward (next_) to v
+    tail_->next_ = to_add; // make v point back to end of list (prev_)
 
-  tail_ = to_add; // now, make to_add the new end of list by assigning it to tail_
+    tail_ = to_add; // now, make to_add the new end of list by assigning it to tail_
+  }
 
   ++size_; // inc size
 }
