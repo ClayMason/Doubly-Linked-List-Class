@@ -49,7 +49,7 @@ class list_iterator {
     list_iterator<T>& operator++ (int) { // iter++
       // return current state of iterator, then increment it
       list_iterator<T>& temp(*this);
-      ptr_ = ptr_->next;
+      ptr_ = ptr_->next_;
       return temp;
     }
     list_iterator<T>& operator-- () { // --iter

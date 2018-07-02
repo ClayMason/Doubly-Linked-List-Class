@@ -2,16 +2,18 @@
 #include "dslist.h"
 #include <assert.h>
 #include <sstream>
+#include <string>
 
 template <class T>
-char* stringify (dslist<T>& _list) {
+std::string stringify (dslist<T>& _list) {
   std::stringstream ss;
   for ( typename dslist<T>::iterator itr = _list.begin(); itr != _list.end(); ++itr ) {
     ss << *itr << " ";
   }
   ss << "(" << _list.size() << ")";
+  std::string temp = ss.str();
 
-  return (char*) ss.str();
+  return temp;
 }
 
 int main () {
