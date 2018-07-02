@@ -23,12 +23,11 @@ int main () {
   // test our doubly linked class
   dslist<int> a;
 
-  std::cout << "Starting push_front () " << std::endl;
+  a.push_back(32);
   a.push_front(5);
-  std::cout << "finished push_front () " << std::endl;
   a.push_back(10);
-  std::cout << "finished push_back () " << std::endl;
-  assert(a.size() == 3);
+  a.push_back(56);
+  assert(a.size() == 4);
 
   std::cout << stringify(a) << std::endl;
 

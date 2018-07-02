@@ -35,22 +35,7 @@ class list_iterator {
     list_iterator ( Node<T>* p ) : ptr_(p) {}
     list_iterator ( const list_iterator<T>& old ) : ptr_(old.ptr_) {}
 
-    void print_itr (list_iterator<T>& itr) {
-      std::cout << "Print Iterator" << std::endl;
-      std::cout << "---------------------------------------" << std::endl;
-      std::cout << "ptr null ? ";
-      if ( ptr_ == 0 ) std::cout << "yes" << std::endl;
-      else {
-        std::cout << "No" << std::endl;
-        std::cout << "\t value = " << ptr_->value << std::endl;
-        std::cout << "\t prev_ null ? ";
-        if (ptr_->prev_ == 0) std::cout << "yes" << std::endl;
-        else std::cout << "no" << std::endl;
-        std::cout << "\t next_ null ? ";
-        if (ptr_->next_ == 0) std::cout << "yes" << std::endl;
-        else std::cout << "no" << std::endl;
-      }
-    }
+    friend void print_itr(const list_iterator<T>& itr);
 
     // operator overloading
     // ASSIGNMENT OPERATOR
@@ -68,9 +53,6 @@ class list_iterator {
       // return current state of iterator, then increment it
       list_iterator<T>& temp(*this);
       this->ptr_ = this->ptr_->next_;
-
-      print_itr (temp);
-      print_itr (*this);
 
       return temp;
     }
@@ -100,6 +82,25 @@ class list_iterator {
 
 };
 
+// HELPER
+template <class T>
+void print_itr (const list_iterator<T>& itr) {
+  std::cout << "---------------------------------------" << std::endl;
+  std::cout << "Print Iterator" << std::endl;
+  std::cout << "ptr null ? ";
+  if (itr.ptr_ == 0) std::cout << "yes" << std::endl;
+  else {
+    std::cout << "No" << std::endl;
+    std::cout << "\t value = " << itr.ptr_->value << std::endl;
+    std::cout << "\t prev_ null ? ";
+    if (itr.ptr_->prev_ == 0) std::cout << "yes" << std::endl;
+    else std::cout << "no" << std::endl;
+    std::cout << "\t next_ null ? ";
+    if (itr.ptr_->next_ == 0) std::cout << "yes" << std::endl;
+    else std::cout << "no" << std::endl;
+  }
+  std::cout << "---------------------------------------\n" << std::endl;
+}
 
 // --------------------------------------------------------
 // DS LIST CLASS IMPLEMENTATION
@@ -174,7 +175,10 @@ void dslist<T>::push_front (const T& v) {
   }
   else {
     list_iterator<T> next_itr = begin ();
+    print_itr(next_itr);
     list_iterator<T> first_itr = next_itr++; // itr's old state is returned and next_itr increments
+    print_itr(next_itr);
+
     assert(first_itr != 0);
     assert(first_itr.ptr_ != 0);
 
