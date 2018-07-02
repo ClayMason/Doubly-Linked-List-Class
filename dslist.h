@@ -20,7 +20,7 @@ class Node {
 
 
 // forward declaration of ds list b/s it is referenced in list_iterator
-template <class T> class dlist;
+template <class T> class dslist;
 // --------------------------------------------------------
 // LIST ITERATOR CLASS
 template <class T>
@@ -109,9 +109,9 @@ class dslist {
     void clear () { this->destroy_list(); }
 
     // read / write access to contents
-    const T& front () const { return head_->value_; }
-    T& front () { return head_->value_; }
-    const T& back () const { return tail_->value_; }
+    const T& front () const { return head_->value; }
+    T& front () { return head_->value; }
+    const T& back () const { return tail_->value; }
     T& back () { return tail_->value; }
 
     // modify linked list structure
@@ -157,7 +157,7 @@ void dslist<T>::push_front (const T& v) {
   v_node->prev_ = first_itr.ptr_;
 
   // make next_itr's ptr_->prev_ point to v -- and vice versa
-  next_itr.ptr->prev_ = v_node;
+  next_itr.ptr_->prev_ = v_node;
   v_node->next_ = next_itr.ptr_;
 
   ++size_;
@@ -180,7 +180,7 @@ template <class T>
 void dslist<T>::push_back (const T& v) {
   // add v to the end of the list
   Node<T>* to_add = new Node<T>;
-  to_add->value_ = v; // set the node value to v (object to add to list)
+  to_add->value = v; // set the node value to v (object to add to list)
   to_add->prev_ = tail_; // make the end of the list point forward (next_) to v
   tail_->next_ = to_add; // make v point back to end of list (prev_)
 
@@ -224,7 +224,7 @@ typename dslist<T>::iterator dslist<T>::insert (iterator itr, const T& v) {
   // insert v after the Node that itr's ptr_ points to
   Node<T>* to_add;
   *to_add = new Node<T>;
-  to_add->value_ = v;
+  to_add->value = v;
 
   if ( itr.ptr_ == 0 ) // if the iterator is null ... insert to end ? b/c end () also returns null iteratror
   {
@@ -244,7 +244,7 @@ typename dslist<T>::iterator dslist<T>::insert (iterator itr, const T& v) {
     ++this->size_;
   }
 
-  to_return iterator(to_add);
+  return iterator(to_add);
 }
 
 template <class T>
@@ -252,12 +252,12 @@ void dslist<T>::copy_list (const dslist<T>& old) {
   // copy the contents of old dslist into this dslist
 
   // start with the head
-  this->head_ = new Node<T>(old.head_->value_);
+  this->head_ = new Node<T>(old.head_->value);
   Node<T>* this_prev = head_;
 
   for (iterator itr = ++old.begin(); itr != old.end(); ++itr) {
     Node<T>* to_add;
-    to_add = new Node<T>(itr.ptr_->value_);
+    to_add = new Node<T>(itr.ptr_->value);
     to_add->prev_ = this_prev;
     this_prev->next_ =  to_add;
 
