@@ -31,7 +31,7 @@ class list_iterator {
 
   public:
     list_iterator () : ptr_(NULL) {}
-    list_iterator ( Node<T>* p ) : prt_(p) {}
+    list_iterator ( Node<T>* p ) : ptr_(p) {}
     list_iterator ( const list_iterator<T>& old ) : ptr_(old.ptr_) {}
 
     // operator overloading
@@ -54,7 +54,7 @@ class list_iterator {
     }
     list_iterator<T>& operator-- () { // --iter
       // decrement iterator, then return new state
-      pre_ = pre_->prev_;
+      ptr_ = ptr_->prev_;
       return *this;
     }
     list_iterator<T>& operator-- (int) { // iter--
@@ -97,7 +97,7 @@ class dslist {
     // default constructor, assignment constructor, copy constructor,
     // & deconstructor
     dslist () : head_(0), tail_(0), size_(0) {} // 0 for NULL
-    dslist (const dslist<T>& old) : { this->copy_list(old); }
+    dslist (const dslist<T>& old) { this->copy_list(old); }
     /*TODO -- DONE*/ dslist<T>& operator= (const dslist<T>& old);
     ~dslist () { this->destroy_list(); }
 
@@ -123,7 +123,7 @@ class dslist {
     // iterator modifier functions
     typedef list_iterator<T> iterator;
     /*TODO -- DONE*/ iterator erase (iterator itr);
-    /*TODO -- DONE*/ iterator insert (iterator itr, cosnt T& v);
+    /*TODO -- DONE*/ iterator insert (iterator itr, const T& v);
     iterator begin () { return iterator(head_); }
     iterator end () { return iterator(0); }
 };
@@ -150,7 +150,7 @@ void dslist<T>::push_front (const T& v) {
   // make a new node for v
   Node<T>* v_node;
   v_node = new Node<T>;
-  v_node->value = T;
+  v_node->value = v;
 
   // make first_itr's ptr_->next_ point to v -- and vice versa
   first_itr.ptr_->next_ = v_node;
@@ -202,7 +202,7 @@ void dslist<T>::pop_back () {
 }
 
 template <class T>
-iterator dslist<T>::erase (iterator itr) {
+typename dslist<T>::iterator dslist<T>::erase (iterator itr) {
   // remove the object that the iterator is pointing at in this list.
   Node<T>* to_left = itr.ptr_->prev_;
   Node<T>* to_right = itr.ptr_->next_;
@@ -220,7 +220,7 @@ iterator dslist<T>::erase (iterator itr) {
 }
 
 template <class T>
-iterator dslist<T>::insert (iterator itr, const T& v) {
+typename dslist<T>::iterator dslist<T>::insert (iterator itr, const T& v) {
   // insert v after the Node that itr's ptr_ points to
   Node<T>* to_add;
   *to_add = new Node<T>;
@@ -233,8 +233,8 @@ iterator dslist<T>::insert (iterator itr, const T& v) {
     tail_ = to_add;
   } else {
     // otherwise, the itr should be pointing at a node within the list
-    to_right = itr.ptr_->next_;
-    to_left = itr.ptr_;
+    Node<T>* to_right = itr.ptr_->next_;
+    Node<T>* to_left = itr.ptr_;
 
     if (to_right != 0) to_right->prev_ = to_add; // want to make sure to_right is not null
     to_left->next_ = to_add; // to_left cannot be null b/c we already cheked in 1st if -- so no need to double check
@@ -248,7 +248,7 @@ iterator dslist<T>::insert (iterator itr, const T& v) {
 }
 
 template <class T>
-void copy_list (const dslist<T>& old) {
+void dslist<T>::copy_list (const dslist<T>& old) {
   // copy the contents of old dslist into this dslist
 
   // start with the head
@@ -272,12 +272,12 @@ void copy_list (const dslist<T>& old) {
 }
 
 template <class T>
-void destroy_list () {
+void dslist<T>::destroy_list () {
   // should delete all components within the list and return memory
 
   // Step 1: delete all nodes in the list (dynamically deallocate)
   for (iterator itr = this->begin(); itr != this->end(); itr) {
-    iterator currnet = itr++;
+    iterator current = itr++;
     delete current.ptr_;
   }
 
