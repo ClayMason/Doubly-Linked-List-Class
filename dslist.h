@@ -85,8 +85,8 @@ template <class T>
 class dslist {
   private:
     // private helper functions
-    /*TODO*/ void copy_list (const dslist<T>& old);
-    /*TODO*/ void destory_list ();
+    /*TODO -- DONE*/ void copy_list (const dslist<T>& old);
+    /*TODO*/ void destroy_list ();
 
     // REPRESENTATION
     Node<T>* head_;
@@ -99,14 +99,14 @@ class dslist {
     dslist () : head_(0), tail_(0), size_(0) {} // 0 for NULL
     dslist (const dslist<T>& old) : { this->copy_list(old); }
     /*TODO -- DONE*/ dslist<T>& operator= (const dslist<T>& old);
-    ~dslist () { this->destory_list(); }
+    ~dslist () { this->destroy_list(); }
 
     // SIMPLE ACCESSORS
     unsigned int size () const { return size_; }
     bool empty () const { return head_==0; }
 
     // SIMPLE MODIFIERS
-    void clear () { this->destory_list(); }
+    void clear () { this->destroy_list(); }
 
     // read / write access to contents
     const T& front () const { return head_->value_; }
@@ -134,7 +134,7 @@ template <class T>
 dslist<T>& dslist<T>::operator= (const dslist<T>& old) {
   // check for self assignment
   if ( &old != this ) {
-    this->destory_list();
+    this->destroy_list();
     this->copy_list(old);
   }
 
@@ -270,4 +270,10 @@ void copy_list (const dslist<T>& old) {
   this->size_ = old.size_;
 
 }
+
+template <class T>
+void destroy_list () {
+  // should delete all components within the list and return memory
+}
+
 #endif
