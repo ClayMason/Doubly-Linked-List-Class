@@ -274,6 +274,14 @@ void copy_list (const dslist<T>& old) {
 template <class T>
 void destroy_list () {
   // should delete all components within the list and return memory
+
+  // Step 1: delete all nodes in the list (dynamically deallocate)
+  for (iterator itr = this->begin(); itr != this->end(); itr) {
+    iterator currnet = itr++;
+    delete current.ptr_;
+  }
+
+  // that's it
 }
 
 #endif
