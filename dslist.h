@@ -211,16 +211,16 @@ void dslist<T>::push_front (const T& v) {
 template <class T>
 void dslist<T>::pop_front () {
   // remove the item in the front
-  Node<T>* to_remove = this->head_;
-  print_node (*to_remove, "POP FRONT: TO REMOVE");
-  this->head_ = (++(this->begin())).ptr_;
-  print_node (*(this->head_), "POP FRONT: NEW HEAD");
+  if ( this->size_ > 0 ) {
+    Node<T>* to_remove = this->head_;
+    this->head_ = (++(this->begin())).ptr_;
 
-  to_remove->next_ = 0;
-  head_->prev_ = 0;
+    to_remove->next_ = 0;
+    head_->prev_ = 0;
 
-  delete to_remove;
-  -- size_;
+    delete to_remove;
+    -- size_;
+  }
 }
 
 template <class T>
@@ -245,14 +245,16 @@ void dslist<T>::push_back (const T& v) {
 
 template <class T>
 void dslist<T>::pop_back () {
-  // remove the item at the end of the list
-  Node<T>* to_remove = tail_;
-  tail_ = tail_->prev_;
-  tail_->next_ = 0;
-  to_remove->prev_ = 0;
+  if ( this->size_ > 0 ) {
+    // remove the item at the end of the list
+    Node<T>* to_remove = tail_;
+    tail_ = tail_->prev_;
+    tail_->next_ = 0;
+    to_remove->prev_ = 0;
 
-  delete to_remove;
-  --size_;
+    delete to_remove;
+    --size_;
+  }
 }
 
 template <class T>
