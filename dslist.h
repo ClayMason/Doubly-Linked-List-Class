@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <string>
 
 // --------------------------------------------------------
 // NODE CLASS
@@ -15,8 +16,8 @@ class Node {
 
     //  member variables
     T value;
-    Node<T>* prev_;
     Node<T>* next_;
+    Node<T>* prev_;
 };
 
 
@@ -31,12 +32,14 @@ class list_iterator {
     Node<T>* ptr_;
 
   public:
-    list_iterator () : ptr_(NULL) {}
+    list_iterator () : ptr_(0) {}
     list_iterator ( Node<T>* p ) : ptr_(p) {}
-    list_iterator ( const list_iterator<T>& old ) : ptr_(old.ptr_) {}
+    list_iterator ( const list_iterator<T>& old ) /*: ptr_(old.ptr_)*/ {
+      this->ptr_ = old.ptr_;
+    }
 
     template <class U>
-    friend void print_itr(const list_iterator<U>& itr);
+    friend void print_itr(const list_iterator<U>& itr, const std::string label);
 
     // operator overloading
     // ASSIGNMENT OPERATOR
@@ -52,7 +55,7 @@ class list_iterator {
     }
     list_iterator<T>& operator++ (int) { // iter++
       // return current state of iterator, then increment it
-      list_iterator<T>& temp(*this);
+      list_iterator<T> temp(*this);
       this->ptr_ = this->ptr_->next_;
 
       return temp;
@@ -85,9 +88,10 @@ class list_iterator {
 
 // HELPER
 template <class T>
-void print_itr (const list_iterator<T>& itr) {
+void print_itr (const list_iterator<T>& itr, const std::string label_) {
   std::cout << "---------------------------------------" << std::endl;
-  std::cout << "Print Iterator" << std::endl;
+  std::cout << "Print Iterator - " << label_ << std::endl;
+  std::cout << "Address: " << &itr << std::endl;
   std::cout << "ptr null ? ";
   if (itr.ptr_ == 0) std::cout << "yes" << std::endl;
   else {
@@ -175,26 +179,17 @@ void dslist<T>::push_front (const T& v) {
     tail_ = head_;
   }
   else {
-    list_iterator<T> next_itr = begin ();
-    print_itr(next_itr);
-    list_iterator<T> first_itr = next_itr++; // itr's old state is returned and next_itr increments
-    print_itr(next_itr);
-
-    assert(first_itr != 0);
-    assert(first_itr.ptr_ != 0);
-
     // make a new node for v
     Node<T>* v_node;
     v_node = new Node<T>;
     v_node->value = v;
 
-    // make first_itr's ptr_->next_ point to v -- and vice versa
-    first_itr.ptr_->next_ = v_node;
-    v_node->prev_ = first_itr.ptr_;
-
-    // make next_itr's ptr_->prev_ point to v -- and vice versa
-    next_itr.ptr_->prev_ = v_node;
-    v_node->next_ = next_itr.ptr_;
+    list_iterator<T> _first = this->begin ();
+    print_itr(_first, "OLD HEAD");
+    _first.ptr_->prev_ = v_node;
+    v_node->next_ = _first.ptr_;
+    this->head_ = v_node;
+    print_itr(this->begin(), "NEW HEAD");
   }
 
   ++size_;
