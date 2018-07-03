@@ -107,6 +107,21 @@ void print_itr (const list_iterator<T>& itr, const std::string label_) {
   std::cout << "---------------------------------------\n" << std::endl;
 }
 
+template <class T>
+void print_node (const Node<T>& n, const std::string label_) {
+  std::cout << "---------------------------------------" << std::endl;
+  std::cout << "Node: " << label_ << std::endl;
+  std::cout << "\tValue => " << n.value << std::endl;
+  std::cout << "\tprev_ null ? ";
+  if ( n.prev_ == 0 ) std::cout << "yes" << std::endl;
+  else std::cout << "no => (prev_ = "<< n.prev_->value<<")" << std::endl;
+  std::cout << "\nnext_ null ? ";
+  if ( n.next_ == 0 ) std::cout << "yes" << std::endl;
+  else std::cout << "no => (next_ = "<< n.next_->value<<")" << std::endl;
+
+  std::cout << "---------------------------------------\n" << std::endl;
+}
+
 // --------------------------------------------------------
 // DS LIST CLASS IMPLEMENTATION
 template <class T>
@@ -199,7 +214,9 @@ template <class T>
 void dslist<T>::pop_front () {
   // remove the item in the front
   Node<T>* to_remove = this->head_;
-  this->head_ = ++ (this->begin());
+  print_node (to_remove, "POP FRONT: TO REMOVE");
+  this->head_ = ++(this->begin());
+  print_node (to_remove, "POP FRONT: NEW HEAD");
 
   to_remove->next_ = 0;
   head_->prev_ = 0;
