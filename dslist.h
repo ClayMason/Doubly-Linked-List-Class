@@ -165,8 +165,8 @@ class dslist {
 
     // iterator modifier functions
     typedef list_iterator<T> iterator;
-    /*TODO -- DONE*/ iterator erase (iterator itr);
-    /*TODO -- DONE*/ iterator insert (iterator itr, const T& v);
+    /*TODO -- DONE*/ iterator erase (iterator& itr);
+    /*TODO -- DONE*/ iterator insert (iterator& itr, const T& v);
     iterator begin () { return iterator(head_); }
     iterator end () { return iterator(0); }
 };
@@ -258,7 +258,7 @@ void dslist<T>::pop_back () {
 }
 
 template <class T>
-typename dslist<T>::iterator dslist<T>::erase (iterator itr) {
+typename dslist<T>::iterator dslist<T>::erase (iterator& itr) {
   if ( itr.ptr_ != 0 ) {
     // remove the object that the iterator is pointing at in this list.
     print_itr(itr, "TO ERASE");
@@ -268,7 +268,9 @@ typename dslist<T>::iterator dslist<T>::erase (iterator itr) {
     itr.ptr_->next_ = 0;
     itr.ptr_->prev_ = 0;
 
-    delete itr.ptr_;
+    std::cout <<"dereference itr: " << *itr << std::endl;
+    delete (itr.ptr_);
+    std::cout <<"dereference itr: " << *itr << std::endl; // WHY IS THE NODE NOT DELETED ????
     assert(itr.ptr_ == 0);
 
     // make sure the Node pointers are not null before accessing properties of it1
@@ -283,7 +285,7 @@ typename dslist<T>::iterator dslist<T>::erase (iterator itr) {
 }
 
 template <class T>
-typename dslist<T>::iterator dslist<T>::insert (iterator itr, const T& v) {
+typename dslist<T>::iterator dslist<T>::insert (iterator& itr, const T& v) {
   // insert v after the Node that itr's ptr_ points to
   Node<T>* to_add;
   *to_add = new Node<T>;
