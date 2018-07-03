@@ -216,7 +216,7 @@ void dslist<T>::pop_front () {
     this->head_ = (++(this->begin())).ptr_;
 
     to_remove->next_ = 0;
-    head_->prev_ = 0;
+    if (this->head_ != 0) head_->prev_ = 0;
 
     delete to_remove;
     -- size_;
@@ -249,7 +249,7 @@ void dslist<T>::pop_back () {
     // remove the item at the end of the list
     Node<T>* to_remove = tail_;
     tail_ = tail_->prev_;
-    tail_->next_ = 0;
+    if (tail_ != 0) tail_->next_ = 0;
     to_remove->prev_ = 0;
 
     delete to_remove;
