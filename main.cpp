@@ -40,5 +40,28 @@ int main () {
   a.pop_front ();
   std::cout << "After pop-front: " << stringify(a) << std::endl;
 
+  // single-item case pop-back & pop-front test.
+  dslist<double> b;
+
+  b.push_front(4.5);
+  std::cout << "Init b: " << stringify(b) << std::endl;
+  b.pop_front ();
+  std::cout << "(b) : pop_front () => " << stringify(b) << std::endl;
+
+  b.push_back(50.2);
+  std::cout << "Init b: " << stringify(b) << std::endl;
+  b.pop_back ();
+  std::cout << "(b) : pop_back () => " << stringify(b) << std::endl;
+
+  b.push_front (24.5);
+  std::cout << "Init b: " << stringify(b) << std::endl;
+  b.pop_back ();
+  std::cout << "(b) : pop_back () => " << stringify(b) << std::endl;
+
+  b.push_back(65.24);
+  std::cout << "Init b: " << stringify(b) << std::endl;
+  b.pop_front ();
+  std::cout << "(b) : pop_front () => " << stringify(b) << std::endl;
+
   return 0;
 }
