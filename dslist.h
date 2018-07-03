@@ -115,7 +115,7 @@ void print_node (const Node<T>& n, const std::string label_) {
   std::cout << "\tprev_ null ? ";
   if ( n.prev_ == 0 ) std::cout << "yes" << std::endl;
   else std::cout << "no => (prev_ = "<< n.prev_->value<<")" << std::endl;
-  std::cout << "\nnext_ null ? ";
+  std::cout << "\tnext_ null ? ";
   if ( n.next_ == 0 ) std::cout << "yes" << std::endl;
   else std::cout << "no => (next_ = "<< n.next_->value<<")" << std::endl;
 
@@ -200,11 +200,9 @@ void dslist<T>::push_front (const T& v) {
     v_node->value = v;
 
     list_iterator<T> _first = this->begin ();
-    print_itr(_first, "OLD HEAD");
     _first.ptr_->prev_ = v_node;
     v_node->next_ = _first.ptr_;
     this->head_ = v_node;
-    print_itr(this->begin(), "NEW HEAD");
   }
 
   ++size_;
@@ -214,9 +212,9 @@ template <class T>
 void dslist<T>::pop_front () {
   // remove the item in the front
   Node<T>* to_remove = this->head_;
-  print_node (to_remove, "POP FRONT: TO REMOVE");
-  this->head_ = ++(this->begin());
-  print_node (to_remove, "POP FRONT: NEW HEAD");
+  print_node (*to_remove, "POP FRONT: TO REMOVE");
+  this->head_ = (++(this->begin())).ptr_;
+  print_node (*(this->head_), "POP FRONT: NEW HEAD");
 
   to_remove->next_ = 0;
   head_->prev_ = 0;

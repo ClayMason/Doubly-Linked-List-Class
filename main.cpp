@@ -23,13 +23,22 @@ int main () {
   // test our doubly linked class
   dslist<int> a;
 
+  // PUSH BACK & PUSH FRONT WORKS FOR SIZE = 0 && SIZE > 0 CASES
+  a.push_front(100);
   a.push_back(32);
   a.push_front(5);
   a.push_back(10);
   a.push_back(56);
-  assert(a.size() == 4);
+  assert(a.size() == 5);
 
   std::cout << stringify(a) << std::endl;
+
+  // POP-BACK TEST
+  a.pop_back ();
+  std::cout << "After pop-back: " << stringify(a) << std::endl;
+
+  a.pop_front ();
+  std::cout << "After pop-front: " << stringify(a) << std::endl;
 
   return 0;
 }
