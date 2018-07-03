@@ -63,5 +63,32 @@ int main () {
   b.pop_front ();
   std::cout << "(b) : pop_front () => " << stringify(b) << std::endl;
 
+
+  std::cout << "\n\nERASE TEST" << std::endl;
+  dslist<std::string> c;
+  c.push_back ("bravo");
+  c.push_front ("alpha");
+  c.push_back ("charlie");
+  c.push_back ("delta");
+  c.push_back ("epsilon");
+  c.push_back ("foxtrot");
+  c.push_back ("galio");
+
+  std::cout << "INIT C: " << stringify(c) << std::endl;
+
+  // ERASING IN BETWEEN LIST
+  list_iterator<std::string> c_itr = c.begin ();
+  ++c_itr; ++c_itr;
+  print_itr( c_itr, "ERASE ITR" );
+  c.erase(c_itr);
+  std::cout << "AFTER ERASE #1 - C: " << stringify(c) << std::endl;
+  c.erase(c_itr);
+  std::cout << "AFTER ERASE #2 - C: " << stringify(c) << std::endl;
+
+  // ERASE AT START AND AT END OF LIST
+  c_itr = c.begin ();
+  c.erase(c_itr);
+  std::cout << "AFTER ERASE #3 - C: " << stringify(c) << std::endl;
+
   return 0;
 }
