@@ -35,7 +35,8 @@ class list_iterator {
     list_iterator ( Node<T>* p ) : ptr_(p) {}
     list_iterator ( const list_iterator<T>& old ) : ptr_(old.ptr_) {}
 
-    friend void print_itr(const list_iterator<T>& itr);
+    template <class U>
+    friend void print_itr(const list_iterator<U>& itr);
 
     // operator overloading
     // ASSIGNMENT OPERATOR
