@@ -259,20 +259,27 @@ void dslist<T>::pop_back () {
 
 template <class T>
 typename dslist<T>::iterator dslist<T>::erase (iterator itr) {
-  // remove the object that the iterator is pointing at in this list.
-  Node<T>* to_left = itr.ptr_->prev_;
-  Node<T>* to_right = itr.ptr_->next_;
+  if ( itr.ptr_ != 0 ) {
+    // remove the object that the iterator is pointing at in this list.
+    print_itr(itr, "TO ERASE");
+    Node<T>* to_left = itr.ptr_->prev_;
+    Node<T>* to_right = itr.ptr_->next_;
 
-  itr.ptr_->next_ = 0;
-  itr.ptr_->prev_ = 0;
+    itr.ptr_->next_ = 0;
+    itr.ptr_->prev_ = 0;
 
-  // do not need to delete itr b/c not dynamically allocated
+    delete itr.ptr_;
+    assert(itr.ptr_ == 0);
 
-  // make sure the Node pointers are not null before accessing properties of it1
-  if (to_left != 0) to_left->next_ = to_right;
-  if (to_right != 0) to_right->prev_ = to_left;
-  --this->size_;
-  return iterator(to_right);
+    // make sure the Node pointers are not null before accessing properties of it1
+    if (to_left != 0) to_left->next_ = to_right;
+    if (to_right != 0) to_right->prev_ = to_left;
+    --this->size_;
+
+    print_itr(iterator(to_right), "RETURN AFTER ERASE");
+    return iterator(to_right);
+  }
+  return 0;
 }
 
 template <class T>

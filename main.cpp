@@ -7,10 +7,15 @@
 template <class T>
 std::string stringify (dslist<T>& _list) {
   std::stringstream ss;
+  int count = 0;
   for ( typename dslist<T>::iterator itr = _list.begin(); itr != _list.end(); ++itr ) {
     ss << *itr << " ";
+    ++count;
   }
+
   ss << "(" << _list.size() << ")";
+  if ( count == _list.size() ) ss << "\tsize match ? yes\n";
+  else ss << "\tsize match ? no\n";
   std::string temp = ss.str();
 
   return temp;
@@ -73,6 +78,7 @@ int main () {
   c.push_back ("epsilon");
   c.push_back ("foxtrot");
   c.push_back ("galio");
+  assert(c.size() == 7);
 
   std::cout << "INIT C: " << stringify(c) << std::endl;
 
@@ -81,13 +87,16 @@ int main () {
   ++c_itr; ++c_itr;
   print_itr( c_itr, "ERASE ITR" );
   c.erase(c_itr);
+  assert(c.size() == 6);
   std::cout << "AFTER ERASE #1 - C: " << stringify(c) << std::endl;
   c.erase(c_itr);
+  assert(c.size() == 5);
   std::cout << "AFTER ERASE #2 - C: " << stringify(c) << std::endl;
 
   // ERASE AT START AND AT END OF LIST
   c_itr = c.begin ();
   c.erase(c_itr);
+  assert(c.size() == 4);
   std::cout << "AFTER ERASE #3 - C: " << stringify(c) << std::endl;
 
   return 0;
