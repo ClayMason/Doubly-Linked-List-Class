@@ -124,12 +124,26 @@ int main () {
   print_itr(d_itr, "INSERT LOCATION POINTER");
   d.insert(d_itr, 100);
 
-  std::cout << "Post-insert => " << stringify(d) << std::endl;
+  std::cout << "Post-insert #1 => " << stringify(d) << std::endl;
   assert(d.size() == 11);
 
-  // TODO: start of list insertion
+  // start of list test (should be same)
+  d_itr = d.begin();
+  d.insert(d_itr, 200);
+  std::cout << "Post-insert #2 => " << stringify(d) << std::endl;
+  assert(d.size() == 12);
 
   // TODO: end of list insertion
+  d_itr = d.end();
+  d.insert(d_itr, 400);
+  std::cout << "Post-insert #3 => " << stringify(d) << std::endl;
+  assert(d.size() == 13);
+
+  d_itr = d.begin();
+  for (int i = 0; i < 12; i++) ++d_itr;
+  d.insert(d_itr, 500);
+  std::cout << "Post-insert #4 => " << stringify(d) << std::endl;
+  assert(d.size() == 14);
 
   return 0;
 }
