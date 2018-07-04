@@ -86,16 +86,18 @@ int main () {
   list_iterator<std::string> c_itr = c.begin ();
   ++c_itr; ++c_itr;
   print_itr( c_itr, "ERASE ITR" );
-  c.erase(c_itr);
+  c_itr = c.erase(c_itr); // erase should return the iterator pointing next to deleted item
+
   assert(c.size() == 6);
   std::cout << "AFTER ERASE #1 - C: " << stringify(c) << std::endl;
-  c.erase(c_itr);
+  c_itr = c.erase(c_itr);
+
   assert(c.size() == 5);
   std::cout << "AFTER ERASE #2 - C: " << stringify(c) << std::endl;
 
   // ERASE AT START AND AT END OF LIST
   c_itr = c.begin ();
-  c.erase(c_itr);
+  c_itr = c.erase(c_itr);
   assert(c.size() == 4);
   std::cout << "AFTER ERASE #3 - C: " << stringify(c) << std::endl;
 
