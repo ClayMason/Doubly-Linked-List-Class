@@ -101,5 +101,35 @@ int main () {
   assert(c.size() == 4);
   std::cout << "AFTER ERASE #3 - C: " << stringify(c) << std::endl;
 
+  // INSERTION TEST
+  dslist<int> d;
+  d.push_back (1);
+  d.push_back (2);
+  d.push_back (3);
+  d.push_back (4);
+  d.push_back (5);
+  d.push_back (6);
+  d.push_back (7);
+  d.push_back (8);
+  d.push_back (9);
+  d.push_back (10);
+
+  // in between list insertion
+  assert( d.size() == 10 );
+  std::cout << "INSERT TESTS" << std::endl;
+  std::cout << "Init d => " << stringify(d) << std::endl;
+
+  list_iterator<int> d_itr = d.begin();
+  ++d_itr;
+  print_itr(d_itr, "INSERT LOCATION POINTER");
+  d.insert(d_itr, 100);
+
+  std::cout << "Post-insert => " << stringify(d) << std::endl;
+  assert(d.size() == 11);
+
+  // TODO: start of list insertion
+
+  // TODO: end of list insertion
+
   return 0;
 }
