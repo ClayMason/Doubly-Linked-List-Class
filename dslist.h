@@ -267,16 +267,26 @@ typename dslist<T>::iterator dslist<T>::erase (iterator& itr) {
     Node<T>* to_left = itr.ptr_->prev_;
     Node<T>* to_right = itr.ptr_->next_;
 
-    itr.ptr_->next_ = 0;
-    itr.ptr_->prev_ = 0;
+      itr.ptr_->next_ = 0;
+      itr.ptr_->prev_ = 0;
+
+      // close up gap in list (if any)
+      // make sure the Node pointers are not null before accessing properties of it1
+      if (to_left != 0) to_left->next_ = to_right;
+      if (to_right != 0) to_right->prev_ = to_left;
+
+    if (itr.ptr_ == this->head_) {
+      // if the pointer to delete is the head, find the next head
+      this->head_ = to_right;
+    } else if (itr.ptr_ == this->tail_) {
+      // if the pointer to delete is the tail, find the next tail
+      this->tail_ = to_left;
+    }
 
     delete (itr.ptr_);
     itr.ptr_ = 0; // set pointer to null to avoid dangling pointer
     assert(itr.ptr_ == 0);
 
-    // make sure the Node pointers are not null before accessing properties of it1
-    if (to_left != 0) to_left->next_ = to_right;
-    if (to_right != 0) to_right->prev_ = to_left;
     --this->size_;
 
     print_itr(iterator(to_right), "RETURN AFTER ERASE");
