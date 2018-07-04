@@ -50,7 +50,7 @@ class list_iterator {
     // INCREMENT & DECREMENT OPERATORS
     list_iterator<T>& operator++ () { // ++iter
       // increment iterator, then return new state
-      ptr_ = ptr_->next_;
+      if (ptr_ != 0) ptr_ = ptr_->next_;
       return *this;
     }
     list_iterator<T>& operator++ (int) { // iter++
@@ -62,7 +62,7 @@ class list_iterator {
     }
     list_iterator<T>& operator-- () { // --iter
       // decrement iterator, then return new state
-      ptr_ = ptr_->prev_;
+      if (ptr_ != 0) ptr_ = ptr_->prev_;
       return *this;
     }
     list_iterator<T>& operator-- (int) { // iter--
@@ -211,7 +211,7 @@ void dslist<T>::push_front (const T& v) { // DEBUG = COMPLETE
 template <class T>
 void dslist<T>::pop_front () { // DEBUG = COMPLETE
   // remove the item in the front
-  if ( this->size_ > 0 ) {
+  if ( this->size_ > 0 && this->head_ != 0 ) {
     Node<T>* to_remove = this->head_;
     this->head_ = (++(this->begin())).ptr_;
 
@@ -246,11 +246,11 @@ void dslist<T>::push_back (const T& v) { // DEBUG = COMPLETE
 
 template <class T>
 void dslist<T>::pop_back () { // DEBUG = COMPLETE
-  if ( this->size_ > 0 ) {
+  if ( this->size_ > 0 && this->tail_ != 0 ) {
     // remove the item at the end of the list
-    tail_ = tail_->prev_;
-    Node<T>* to_remove = tail_->next_;
-    if (tail_ != 0) tail_->next_ = 0;
+    Node<T>* to_remove = this->tail_;
+    this->tail_ = this->tail_->prev_;
+    if (this->tail_ != 0) this->tail_->next_ = 0;
     to_remove->prev_ = 0;
 
     delete to_remove;

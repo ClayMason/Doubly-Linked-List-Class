@@ -27,6 +27,7 @@ int main () {
 
   // test our doubly linked class
   dslist<int> a;
+  std::cout << "init a" << std::endl;
 
   // PUSH BACK & PUSH FRONT WORKS FOR SIZE = 0 && SIZE > 0 CASES
   a.push_front(100);
