@@ -185,7 +185,7 @@ dslist<T>& dslist<T>::operator= (const dslist<T>& old) {
 }
 
 template <class T>
-void dslist<T>::push_front (const T& v) {
+void dslist<T>::push_front (const T& v) { // DEBUG = COMPLETE
   // add v to the front -- relinking
 
   if ( this->size_ == 0 ) {
@@ -209,7 +209,7 @@ void dslist<T>::push_front (const T& v) {
 }
 
 template <class T>
-void dslist<T>::pop_front () {
+void dslist<T>::pop_front () { // DEBUG = COMPLETE
   // remove the item in the front
   if ( this->size_ > 0 ) {
     Node<T>* to_remove = this->head_;
@@ -225,7 +225,7 @@ void dslist<T>::pop_front () {
 }
 
 template <class T>
-void dslist<T>::push_back (const T& v) {
+void dslist<T>::push_back (const T& v) { // DEBUG = COMPLETE
   // add v to the end of the list
   if (this->size_ == 0) {
     head_ = new Node<T>;
@@ -245,7 +245,7 @@ void dslist<T>::push_back (const T& v) {
 }
 
 template <class T>
-void dslist<T>::pop_back () {
+void dslist<T>::pop_back () { // DEBUG = COMPLETE
   if ( this->size_ > 0 ) {
     // remove the item at the end of the list
     Node<T>* to_remove = tail_;
@@ -260,7 +260,7 @@ void dslist<T>::pop_back () {
 }
 
 template <class T>
-typename dslist<T>::iterator dslist<T>::erase (iterator& itr) {
+typename dslist<T>::iterator dslist<T>::erase (iterator& itr) { // DEBUG = COMPLETE
   if ( itr.ptr_ != 0 ) {
     // remove the object that the iterator is pointing at in this list.
     print_itr(itr, "TO ERASE");
@@ -296,18 +296,23 @@ typename dslist<T>::iterator dslist<T>::erase (iterator& itr) {
 }
 
 template <class T>
-typename dslist<T>::iterator dslist<T>::insert (iterator& itr, const T& v) {
+typename dslist<T>::iterator dslist<T>::insert (iterator& itr, const T& v) { // DEBUG = NOT COMPLETE
   // insert v after the Node that itr's ptr_ points to
   Node<T>* to_add;
   to_add = new Node<T>;
   to_add->value = v;
 
-  if ( itr.ptr_ == 0 ) // if the iterator is null ... insert to end ? b/c end () also returns null iteratror
+  if ( itr.ptr_ == 0 || itr.ptr_ == this->tail_ ) // if the iterator is null ... insert to end ? b/c end () also returns null iteratror
   {
-    tail_->next_ = to_add;
-    to_add->prev_ = tail_;
-    tail_ = to_add;
+    // if itr points to nothing, add to end
+    this->tail_->next_ = to_add;
+    to_add->prev_ = this->tail_;
+    this->tail_ = to_add;
   } else {
+
+    // if itr points to head, it won't affect head b/c insert adds after the iterator,
+    // so it will never touch head ( moving forward -- to the right -- from an existing list item )
+
     // otherwise, the itr should be pointing at a node within the list
     Node<T>* to_right = itr.ptr_->next_;
     Node<T>* to_left = itr.ptr_;
@@ -317,9 +322,9 @@ typename dslist<T>::iterator dslist<T>::insert (iterator& itr, const T& v) {
 
     to_add->next_ = to_right;
     to_add->prev_ = to_left;
-    ++this->size_;
   }
 
+  ++this->size_;
   return iterator(to_add);
 }
 
