@@ -219,6 +219,7 @@ void dslist<T>::pop_front () {
     if (this->head_ != 0) head_->prev_ = 0;
 
     delete to_remove;
+    to_remove = 0;
     -- size_;
   }
 }
@@ -253,6 +254,7 @@ void dslist<T>::pop_back () {
     to_remove->prev_ = 0;
 
     delete to_remove;
+    to_remove = 0;
     --size_;
   }
 }
@@ -343,6 +345,7 @@ void dslist<T>::destroy_list () {
   for (iterator itr = this->begin(); itr != this->end(); itr) {
     iterator current = itr++;
     delete current.ptr_;
+    current.ptr_ = 0;
   }
 
   // that's it
