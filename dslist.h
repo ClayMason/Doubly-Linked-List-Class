@@ -248,8 +248,8 @@ template <class T>
 void dslist<T>::pop_back () { // DEBUG = COMPLETE
   if ( this->size_ > 0 ) {
     // remove the item at the end of the list
-    Node<T>* to_remove = tail_;
     tail_ = tail_->prev_;
+    Node<T>* to_remove = tail_->next_;
     if (tail_ != 0) tail_->next_ = 0;
     to_remove->prev_ = 0;
 
