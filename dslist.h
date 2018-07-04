@@ -268,9 +268,8 @@ typename dslist<T>::iterator dslist<T>::erase (iterator& itr) {
     itr.ptr_->next_ = 0;
     itr.ptr_->prev_ = 0;
 
-    std::cout <<"dereference itr: " << *itr << std::endl;
     delete (itr.ptr_);
-    std::cout <<"dereference itr: " << *itr << std::endl; // WHY IS THE NODE NOT DELETED ????
+    itr.ptr_ = 0; // set pointer to null to avoid dangling pointer
     assert(itr.ptr_ == 0);
 
     // make sure the Node pointers are not null before accessing properties of it1
@@ -288,7 +287,7 @@ template <class T>
 typename dslist<T>::iterator dslist<T>::insert (iterator& itr, const T& v) {
   // insert v after the Node that itr's ptr_ points to
   Node<T>* to_add;
-  *to_add = new Node<T>;
+  to_add = new Node<T>;
   to_add->value = v;
 
   if ( itr.ptr_ == 0 ) // if the iterator is null ... insert to end ? b/c end () also returns null iteratror
