@@ -160,8 +160,10 @@ int main () {
   std::cout << "Copy a: " << stringify (a) << std::endl;
   assert(list_a.size() == copy_a.size());
 
-  for (int i = 0, list_iterator<int> l_itr = list_a.begin(), list_iterator<int> copy_itr = copy_a.begin();
-        l_itr != a.end(); ++l_itr, ++copy_itr, ++i) {
+  typename dslist<int>::iterator l_itr;
+  typename dslist<int>::iterator copy_itr;
+  int i;
+  for (l_itr = list_a.begin(), copy_itr = copy_a.begin(), i = 0; l_itr != a.end(); ++l_itr, ++copy_itr, ++i) {
 
       // check if the nodes in the list have the same the same memory address
       std::cout << "Item #" << i << "\t list_a => " << *l_itr << "\tcopy_a => " << *copy_itr << std::endl;

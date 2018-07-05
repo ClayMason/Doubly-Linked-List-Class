@@ -336,7 +336,7 @@ void dslist<T>::copy_list (const dslist<T>& old) {
   this->head_ = new Node<T>(old.head_->value);
   Node<T>* this_prev = head_;
 
-  for (iterator itr = ++old.begin(); itr != old.end(); ++itr) {
+  for (iterator itr = iterator (old.head_->next_); itr != iterator(0); ++itr) {
     Node<T>* to_add;
     to_add = new Node<T>(itr.ptr_->value);
     to_add->prev_ = this_prev;
