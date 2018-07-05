@@ -363,6 +363,15 @@ void dslist<T>::destroy_list () {
     current.ptr_ = 0;
   }
 
+  this->size_ = 0;
+  // even though the iterator deleted what head and tail point at, head_ and tail_
+  // are dangling pointers because they have not been zero'd out
+  this->head_ = 0;
+  this->tail_ = 0;
+
+  assert (size_ == 0);
+  assert (head_ == 0);
+  assert (tail_ == 0);
   // that's it
 }
 
