@@ -134,7 +134,6 @@ int main () {
   std::cout << "Post-insert #2 => " << stringify(d) << std::endl;
   assert(d.size() == 12);
 
-  // TODO: end of list insertion
   d_itr = d.end();
   d.insert(d_itr, 400);
   std::cout << "Post-insert #3 => " << stringify(d) << std::endl;
@@ -145,6 +144,34 @@ int main () {
   d.insert(d_itr, 500);
   std::cout << "Post-insert #4 => " << stringify(d) << std::endl;
   assert(d.size() == 14);
+
+  // Copy List Test
+  dslist<int> list_a;
+  list_a.push_back(10);
+  list_a.push_back(20);
+  list_a.push_back(30);
+  list_a.push_back(40);
+  list_a.push_back(50);
+  list_a.push_back(60);
+
+  dslist<int> copy_a(list_a); // make a copy of list_a and store it in copy_a
+
+  std::cout << "List a: " << stringify (a) << std::endl;
+  std::cout << "Copy a: " << stringify (a) << std::endl;
+  assert(list_a.size() == copy_a.size());
+
+  for (int i = 0, list_iterator<int> l_itr = list_a.begin(), list_iterator<int> copy_itr = copy_a.begin();
+        l_itr != a.end(); ++l_itr, ++copy_itr, ++i) {
+
+      // check if the nodes in the list have the same the same memory address
+      std::cout << "Item #" << i << "\t list_a => " << *l_itr << "\tcopy_a => " << *copy_itr << std::endl;
+      std::cout << "\tlist_addr: " << &(*l_itr) << "\tcopy_addr: " << &(*copy_itr) << std::endl;
+      assert( *l_itr == *copy_itr );
+      assert( &(*l_itr) != &(*copy_itr) );
+
+  }
+
+  // end of copy test
 
   return 0;
 }
