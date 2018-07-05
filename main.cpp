@@ -172,8 +172,8 @@ int main () {
       assert( &(*l_itr) != &(*copy_itr) );
 
   }
-
   // end of copy test
+  // copy_list () dslist class function works !
 
   return 0;
 }
